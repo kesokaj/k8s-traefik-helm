@@ -9,7 +9,6 @@ helm repo add traefik https://helm.traefik.io/traefik
 ### values
 ````
 additionalArguments:
-  - --ping=true
   - --api.insecure=true
   - --api.dashboard=true
   - --metrics.prometheus=true
@@ -30,7 +29,7 @@ deployment:
   initContainers:
   - name: volume-permissions
     image: busybox:1.31.1
-    command: ["sh", "-c", "chmod -Rv 600 /cert/*"]
+    command: ["sh", "-c", "chmod -Rv 600 /cert"]
     volumeMounts:
     - name: cert
       mountPath: /cert
@@ -92,7 +91,7 @@ pilot:
 podDisruptionBudget:
   enabled: false
 podSecurityContext:
-  fsGroup: 65532
+  fsGroup: null
 podSecurityPolicy:
   enabled: false
 ports:
@@ -137,10 +136,10 @@ securityContext:
   capabilities:
     drop:
       - ALL
-  readOnlyRootFilesystem: false
-  runAsGroup: 65532
-  runAsNonRoot: true
-  runAsUser: 65532
+  readOnlyRootFilesystem: true
+  runAsGroup: 0
+  runAsNonRoot: false
+  runAsUser: 0
 service:
   annotations: {}
   enabled: true
