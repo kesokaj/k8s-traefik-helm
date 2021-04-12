@@ -15,7 +15,7 @@ additionalArguments:
   - --metrics.prometheus=true
   - --certificatesresolvers.default.acme.tlschallenge
   - --certificatesresolvers.default.acme.email=support@vmar.se
-  - --certificatesresolvers.default.acme.storage=/certs/acme.json
+  - --certificatesresolvers.default.acme.storage=/cert/acme.json
 additionalVolumeMounts: []
 affinity: {}
 autoscaling:
@@ -30,10 +30,10 @@ deployment:
   initContainers:
   - name: volume-permissions
     image: busybox:1.31.1
-    command: ["sh", "-c", "chmod -Rv 600 /data/*"]
+    command: ["sh", "-c", "chmod -Rv 600 /cert/*"]
     volumeMounts:
-    - name: data
-      mountPath: /data
+    - name: cert
+      mountPath: /cert
   kind: Deployment
   labels: {}
   podAnnotations: {}
@@ -83,8 +83,8 @@ persistence:
   accessMode: ReadWriteMany
   annotations: {}
   enabled: true
-  name: data
-  path: /data
+  name: cert
+  path: /cert
   size: 128Mi
 pilot:
   enabled: false
@@ -137,7 +137,7 @@ securityContext:
   capabilities:
     drop:
       - ALL
-  readOnlyRootFilesystem: true
+  readOnlyRootFilesystem: false
   runAsGroup: 65532
   runAsNonRoot: true
   runAsUser: 65532
@@ -155,5 +155,6 @@ serviceAccountAnnotations: {}
 tlsOptions: {}
 tolerations: []
 volumes: []
+
 
 ````
