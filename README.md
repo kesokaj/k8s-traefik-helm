@@ -41,6 +41,7 @@ EOF
 additionalArguments:
   - --providers.file.filename=/data/traefik-config.yaml
   - --metrics.prometheus=true
+  - --api.insecure=true
   - --certificatesresolvers.default.acme.tlschallenge
   - --certificatesresolvers.default.acme.email=support@vmar.se
   - --certificatesresolvers.default.acme.storage=/cert/acme.json
