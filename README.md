@@ -9,6 +9,21 @@ helm repo add traefik https://helm.traefik.io/traefik
 kubectl create ns traefik-system
 ````
 
+### Redirect to https per ingressroute
+````
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: Middleware
+metadata:
+  name: http-to-https
+  namespace: default
+spec:
+  redirectScheme:
+    scheme: https
+    permanent: true
+````
+
+
 ### values
 ````
 additionalArguments:
