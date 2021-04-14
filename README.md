@@ -13,8 +13,6 @@ kubectl create ns traefik-system
 ````
 additionalArguments:
   - --metrics.prometheus=true
-  - --entrypoints.web.http.redirections.entryPoint.to=websecure
-  - --entrypoints.web.http.redirections.entryPoint.scheme=https
   - --certificatesresolvers.default.acme.tlschallenge
   - --certificatesresolvers.default.acme.email=support@vmar.se
   - --certificatesresolvers.default.acme.storage=/cert/acme.json
