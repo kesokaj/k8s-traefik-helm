@@ -113,11 +113,7 @@ persistence:
   enabled: true
   name: cert
   path: /cert
-  size: 128Mi
-volumes:
-  - mountPath: /data
-    name: traefik-config
-    type: configMap  
+  size: 128Mi 
 pilot:
   enabled: false
   token: ''
@@ -186,7 +182,10 @@ serviceAccount:
 serviceAccountAnnotations: {}
 tlsOptions: {}
 tolerations: []
-volumes: []
+volumes:
+  - mountPath: /data
+    name: traefik-config
+    type: configMap 
 
 
 ````
