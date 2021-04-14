@@ -138,7 +138,7 @@ rollingUpdate:
 securityContext:
   capabilities:
     drop: [ALL]
-     add: [NET_BIND_SERVICE]
+    add: [NET_BIND_SERVICE]
   readOnlyRootFilesystem: true
   runAsGroup: 0
   runAsNonRoot: false
