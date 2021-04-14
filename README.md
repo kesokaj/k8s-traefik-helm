@@ -4,13 +4,42 @@
 ````
 helm repo add traefik https://helm.traefik.io/traefik
 ````
+### Create ns
+````
+kubectl create ns traefik-system
+````
+
+### Create config
+````
+cat << EOF > traefik-config.yaml 
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: traefik-config
+  namespace: traefik-system
+data:
+  traefik-config.yaml: |
+    http:
+      middlewares:
+        headers-default:
+          headers:
+            sslRedirect: true
+            browserXssFilter: true
+            contentTypeNosniff: true
+            forceSTSHeader: true
+            stsIncludeSubdomains: true
+            stsPreload: true
+            stsSeconds: 15552000
+            customFrameOptionsValue: SAMEORIGIN
+EOF
+````
 
 
 ### values
 ````
 additionalArguments:
-  - --api.insecure=true
-  - --api.dashboard=true
+  - --providers.file.filename=/data/traefik-config.yaml
   - --metrics.prometheus=true
   - --certificatesresolvers.default.acme.tlschallenge
   - --certificatesresolvers.default.acme.email=support@vmar.se
