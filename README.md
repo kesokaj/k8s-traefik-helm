@@ -9,39 +9,12 @@ helm repo add traefik https://helm.traefik.io/traefik
 kubectl create ns traefik-system
 ````
 
-### Create config
-````
-cat << EOF > traefik-config.yaml 
----
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: traefik-config
-  namespace: traefik-system
-data:
-  traefik-config.yaml: |
-    http:
-      middlewares:
-        headers-default:
-          headers:
-            sslRedirect: true
-            browserXssFilter: true
-            contentTypeNosniff: true
-            forceSTSHeader: true
-            stsIncludeSubdomains: true
-            stsPreload: true
-            stsSeconds: 15552000
-            customFrameOptionsValue: SAMEORIGIN
-EOF
-````
-
-
 ### values
 ````
 additionalArguments:
-  - --providers.file.filename=/data/traefik-config.yaml
   - --metrics.prometheus=true
-  - --api.insecure=true
+  - --entrypoints.web.http.redirections.entryPoint.to=websecure
+  - --entrypoints.web.http.redirections.entryPoint.scheme=https
   - --certificatesresolvers.default.acme.tlschallenge
   - --certificatesresolvers.default.acme.email=support@vmar.se
   - --certificatesresolvers.default.acme.storage=/cert/acme.json
@@ -133,12 +106,12 @@ ports:
   web:
     expose: true
     exposedPort: 80
-    port: 8000
+    port: 80
     protocol: TCP
   websecure:
     expose: true
     exposedPort: 443
-    port: 8443
+    port: 443
     protocol: TCP
     tls:
       certResolver: 'default'
@@ -164,8 +137,8 @@ rollingUpdate:
   maxUnavailable: 1
 securityContext:
   capabilities:
-    drop:
-      - ALL
+    drop: [ALL]
+     add: [NET_BIND_SERVICE]
   readOnlyRootFilesystem: true
   runAsGroup: 0
   runAsNonRoot: false
@@ -183,10 +156,6 @@ serviceAccount:
 serviceAccountAnnotations: {}
 tlsOptions: {}
 tolerations: []
-volumes:
-  - mountPath: /data
-    name: traefik-config
-    type: configMap 
-
+volumes: []
 
 ````
