@@ -12,8 +12,6 @@ additionalArguments:
   - --api.insecure=true
   - --api.dashboard=true
   - --metrics.prometheus=true
-  - --entrypoints.web.http.redirections.entryPoint.to=websecure
-  - --entrypoints.web.http.redirections.entryPoint.scheme=https
   - --certificatesresolvers.default.acme.tlschallenge
   - --certificatesresolvers.default.acme.email=support@vmar.se
   - --certificatesresolvers.default.acme.storage=/cert/acme.json
@@ -105,12 +103,12 @@ ports:
   web:
     expose: true
     exposedPort: 80
-    port: 80
+    port: 8000
     protocol: TCP
   websecure:
     expose: true
     exposedPort: 443
-    port: 443
+    port: 8443
     protocol: TCP
     tls:
       certResolver: 'default'
