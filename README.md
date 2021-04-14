@@ -114,6 +114,10 @@ persistence:
   name: cert
   path: /cert
   size: 128Mi
+volumes:
+  - mountPath: /data
+    name: traefik-config
+    type: configMap  
 pilot:
   enabled: false
   token: ''
