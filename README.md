@@ -23,6 +23,10 @@ spec:
     permanent: true
 ````
 
+### helm install
+````
+helm -n traefik-system install traefik traefik/traefik -f values.yaml
+````
 
 ### values
 ````
