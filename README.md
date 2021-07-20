@@ -31,6 +31,8 @@ additionalArguments:
   - --certificatesresolvers.default.acme.tlschallenge
   - --certificatesresolvers.default.acme.email=support@vmar.se
   - --certificatesresolvers.default.acme.storage=/cert/acme.json
+  - --entrypoints.web.http.redirections.entryPoint.to=websecure
+  - --entrypoints.web.http.redirections.entryPoint.scheme=https  
 additionalVolumeMounts: []
 affinity: {}
 autoscaling:
@@ -39,7 +41,7 @@ deployment:
   additionalContainers: []
   additionalVolumes: []
   annotations:
-    metallb.universe.tf/address-pool: traefik
+    metallb.universe.tf/address-pool: default
   enabled: true
   imagePullSecrets: []
   initContainers:
