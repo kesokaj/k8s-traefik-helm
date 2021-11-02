@@ -33,7 +33,7 @@ helm -n traefik-system install traefik traefik/traefik -f values.yaml
 additionalArguments:
   - --metrics.prometheus=true
   - --certificatesresolvers.default.acme.tlschallenge
-  - --certificatesresolvers.default.acme.email=support@vmar.se
+  - --certificatesresolvers.default.acme.email=simon.ostling@arrow.com
   - --certificatesresolvers.default.acme.storage=/cert/acme.json
   - --entrypoints.web.http.redirections.entryPoint.to=websecure
   - --entrypoints.web.http.redirections.entryPoint.scheme=https  
@@ -45,13 +45,13 @@ deployment:
   additionalContainers: []
   additionalVolumes: []
   annotations:
-    metallb.universe.tf/address-pool: default
+    metallb.universe.tf/address-pool: traefik
   enabled: true
   imagePullSecrets: []
   initContainers:
   - name: volume-permissions
     image: busybox:1.31.1
-    command: ["sh", "-c", "chmod -Rv 600 /cert"]
+    command: ["sh","-c", "touch /cert/acme.json && chmod 600 /cert/acme.json"]
     volumeMounts:
     - name: cert
       mountPath: /cert
@@ -76,7 +76,7 @@ hostNetwork: false
 image:
   name: traefik
   pullPolicy: IfNotPresent
-  tag: 'v2.4.8'
+  tag: 'latest'
 ingressClass:
   enabled: false
   isDefaultClass: false
@@ -98,10 +98,10 @@ logs:
     filters: {}
   general:
     level: ERROR
-nodeSelector:
-  traefik: 'true'
+# nodeSelector:
+#  traefik: 'true'
 persistence:
-  accessMode: ReadWriteMany
+  accessMode: ReadWriteOnce
   annotations: {}
   enabled: true
   name: cert
