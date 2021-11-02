@@ -44,8 +44,6 @@ autoscaling:
 deployment:
   additionalContainers: []
   additionalVolumes: []
-  annotations:
-    metallb.universe.tf/address-pool: traefik
   enabled: true
   imagePullSecrets: []
   initContainers:
@@ -162,7 +160,8 @@ securityContext:
   runAsNonRoot: false
   runAsUser: 0
 service:
-  annotations: {}
+  annotations:
+    metallb.universe.tf/address-pool: traefik
   enabled: true
   externalIPs: []
   labels: {}
