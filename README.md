@@ -76,7 +76,6 @@ hostNetwork: false
 image:
   name: traefik
   pullPolicy: IfNotPresent
-  tag: 'latest'
 ingressClass:
   enabled: false
   isDefaultClass: false
