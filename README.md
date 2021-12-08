@@ -33,7 +33,7 @@ helm -n traefik-system install traefik traefik/traefik -f values.yaml
 additionalArguments:
   - --metrics.prometheus=true
   - --certificatesresolvers.default.acme.tlschallenge
-  - --certificatesresolvers.default.acme.email=simon.ostling@arrow.com
+  - --certificatesresolvers.default.acme.email=<email>
   - --certificatesresolvers.default.acme.storage=/cert/acme.json
   - --entrypoints.web.http.redirections.entryPoint.to=websecure
   - --entrypoints.web.http.redirections.entryPoint.scheme=https  
@@ -160,8 +160,6 @@ securityContext:
   runAsNonRoot: false
   runAsUser: 0
 service:
-  annotations:
-    metallb.universe.tf/address-pool: traefik
   enabled: true
   externalIPs: []
   labels: {}
